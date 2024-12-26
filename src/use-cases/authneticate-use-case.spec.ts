@@ -36,7 +36,7 @@ describe('Authenticate Use Case', () => {
   it('Should not be able to authenticate with wrond email', async () => {
 
 
-    expect(() =>
+    await expect(() =>
       sut.execute({
         email: "Jhon@gmail.com",
         password: "321654"
@@ -52,7 +52,7 @@ describe('Authenticate Use Case', () => {
       password_hash: await hash("321654", 6),
     });
 
-    expect(() =>
+    await expect(() =>
       sut.execute({
         email: "Jhon@gmail.com",
         password: "321531"
