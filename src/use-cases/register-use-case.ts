@@ -6,7 +6,7 @@ import { User } from "@prisma/client";
 interface RegisterUseCaseRequest {
     name: string;
     email: string;
-    password: string
+    password: string;
 }
 
 interface RegisterUseCaseResponse {
