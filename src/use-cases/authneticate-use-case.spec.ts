@@ -1,14 +1,21 @@
-import { expect, test, describe, it } from 'vitest';
+import { expect, describe, it, beforeEach } from 'vitest';
 import { compare, hash } from 'bcryptjs';
 import { InMemoryUserRepository } from '../repositories/in-memory/in-memory-users-repository';
 import { AuthenticateUseCase } from './authenticate-use-case';
 import { InvalidCredentialsError } from './errors/invalid-credential-error';
 
+let usersRepository: InMemoryUserRepository;
+let sut: AuthenticateUseCase
 
 describe('Authenticate Use Case', () => {
+
+  beforeEach(() => {
+    usersRepository = new InMemoryUserRepository;
+    sut = new AuthenticateUseCase(usersRepository);
+  });
+
   it('Should br able to autehnticate', async () => {
-    const usersRepository = new InMemoryUserRepository();
-    const sut = new AuthenticateUseCase(usersRepository);
+
 
     await usersRepository.create({
       name: "Jhon doe",
@@ -27,8 +34,7 @@ describe('Authenticate Use Case', () => {
   });
 
   it('Should not be able to authenticate with wrond email', async () => {
-    const usersRepository = new InMemoryUserRepository();
-    const sut = new AuthenticateUseCase(usersRepository);
+
 
     expect(() =>
       sut.execute({
@@ -39,8 +45,6 @@ describe('Authenticate Use Case', () => {
   });
 
   it('Should not be able to authenticate with wrond password', async () => {
-    const usersRepository = new InMemoryUserRepository();
-    const sut = new AuthenticateUseCase(usersRepository);
 
     await usersRepository.create({
       name: "Jhon doe",
