@@ -29,7 +29,7 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
      return checkIn;
   }
 
-  async findByUserIdOnDate(userID: String, date: Date) {
+  async findByUserIdOnDate(userID: string, date: Date) {
 
     const startOfTheDay = dayjs(date).startOf('date');
     const endOfTheDay = dayjs(date).endOf('date');
