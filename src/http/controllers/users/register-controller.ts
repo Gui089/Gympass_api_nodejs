@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { UserAlreadyExistisError } from "../../use-cases/errors/user-already-exists";
-import { makeRegisterUseCase } from "../../use-cases/factories/make-register-use-case";
+import { makeRegisterUseCase } from "../../../use-cases/factories/make-register-use-case";
+import { UserAlreadyExistisError } from "../../../use-cases/errors/user-already-exists";
+
 
 export async function registerController(request:FastifyRequest, reply:FastifyReply){
 

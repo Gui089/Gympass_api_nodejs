@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { InvalidCredentialsError } from "../../use-cases/errors/invalid-credential-error";
-import { makeAuthneticateUseCase } from "../../use-cases/factories/make-authneticate-use-case";
+import { makeAuthneticateUseCase } from "../../../use-cases/factories/make-authneticate-use-case";
+import { InvalidCredentialsError } from "../../../use-cases/errors/invalid-credential-error";
+
 
 export async function authenticateController(request: FastifyRequest, reply: FastifyReply) {
 
@@ -21,14 +22,37 @@ export async function authenticateController(request: FastifyRequest, reply: Fas
         });
 
         const token = await reply.jwtSign(
-            {},
+            {
+                role:user.role
+            },
             {
                 sign: {
                     sub: user.id
                 }
-            });
+            }
+        );
 
-        return reply.status(200).send({ token });
+        const refreshToken = await reply.jwtSign(
+            {
+                role:user.role
+            },
+            {
+                sign: {
+                    sub: user.id,
+                    expiresIn:'7d'
+                }
+            }
+        );
+
+        return reply
+          .setCookie('refreshToken', refreshToken, {
+            path:'/',
+            secure:true,
+            sameSite:true,
+            httpOnly:true,
+          })
+          .status(200)
+          .send({ token });
 
     } catch (err) {
         if (err instanceof InvalidCredentialsError) {
