@@ -12,10 +12,10 @@ jobs:
        image: bitnami/postgresql
        ports:
         - "5432:5432"
-       environment:
-        - POSTGRESQL_USERNAME=gymapi
-        - POSTGRESQL_PASSWORD=gymapi321
-        - POSTGRESQL_DATABASE=gymapidb
+       env:
+        POSTGRESQL_USERNAME: gymapi
+        POSTGRESQL_PASSWORD: gymapi321
+        POSTGRESQL_DATABASE: gymapidb
 
     steps:
       - uses: actions/checkout@v3
@@ -29,4 +29,4 @@ jobs:
       - run: npm run test:e2e  
         env:
           JWT_SCRET: testing
-          DATABASE_URL:"postgresql://gymapi:gymapi321@localhost:5432/gymapidb?schema=public"
+          DATABASE_URL: "postgresql://gymapi:gymapi321@localhost:5432/gymapidb?schema=public"
